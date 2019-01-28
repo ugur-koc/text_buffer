@@ -10,16 +10,16 @@ Creates **text_buffer** executable.
 
 Then `help` will display following message:
 
-`insert position insertion_text` (inserts the insertion_text starting from position)
-`append addendum_text` (appends addendum_text to the end)
-`eraseAt position length`  (erases length character forward from position)
-`erase length`  (erases length character from end)
-`replace substr replacestr` (replaces all occurance of substr with replacestr)
-`undo` 
-`redo` 
-`load filename`  
-`save filename`  
-`exit` 
+- `insert position insertion_text` (inserts the insertion_text starting from position)
+- `append addendum_text` (appends addendum_text to the end)
+- `eraseAt position length`  (erases length character forward from position)
+- `erase length`  (erases length character from end)
+- `replace substr replacestr` (replaces all occurance of substr with replacestr)
+- `undo` 
+- `redo` 
+- `load filename`  
+- `save filename`  
+- `exit` 
 
 ## Running Tests
 `make test`
