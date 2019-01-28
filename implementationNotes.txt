@@ -1,0 +1,8 @@
+Note:
+
+
+Simply type in the content to be saved in the text buffer\n" 
+Or enter 'load <txtfilename>' to load content from a TXT file
+
+insert can insert empty string
+nothing to redo after a fresh operation
