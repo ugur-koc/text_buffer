@@ -1,15 +1,14 @@
 # Text Buffer Manager
 
 ## Compilation
-
 `make`
 
-Creates "text_buffer" executable.
+Creates **text_buffer** executable.
 
 ## Usage: 
 `./text_buffer`
 
-Then `help` will display following message
+Then `help` will display following message:
 
 `insert position insertion_text` (inserts the insertion_text starting from position)
 `append addendum_text` (appends addendum_text to the end)
@@ -22,16 +21,20 @@ Then `help` will display following message
 `save filename`  
 `exit` 
 
-## Running Tests (only after `make`)
+## Running Tests
 `make test`
+
+(only after `make`)
+Creates **tests/test_name.tmp** and **tests/test_name.out** files and checks **tests/test_name.out** files agains **tests/test_name.expected**
 
 ## Content
 
-"tests/UnitTests.cpp" contains functions that test operations in isolation
-"tests/test_name.test" files are test cases used my the "test" target in the make file
-"tests/test_name.expected" files are expected test case result used my the make file
-"tests/clear_color_codes.pl" is a helper script that post process test result to remove color codes.
-"aaa.txt" is used by some of the test cases (do not remove)
+* **core/\*.h** and **main.cpp** project source code files
+* **tests/UnitTests.cpp** contains functions that test operations in isolation
+* **tests/test_name.test** files are test cases used my the **test** target in the make file
+* **tests/test_name.expected** files are expected test case result used my the make file
+* **tests/clear_color_codes.pl** is a helper script that post process test result to remove color codes.
+* **aaa.txt** is used by some of the test cases (do not remove)
 
 ## Implementation Notes
 
