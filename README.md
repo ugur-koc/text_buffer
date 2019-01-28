@@ -38,14 +38,14 @@ Creates **tests/test_name.tmp** and **tests/test_name.out** files and checks **t
 
 ## Implementation Notes
 
-Insert can insert empty string
-There will be nothing to redo after a new/fresh operation
-Replace cannot have empty find string to replace
-Load and Save accepts .txt extensions only
-Load and Save do not have undo and redo
-Text buffer initializes as empty string
-c++11 features used
-Compilation is tested with clang++ 6.0
+- Insert can insert empty string
+- There will be nothing to redo after a new/fresh operation
+- Replace cannot have empty find string to replace
+- Load and Save accepts .txt extensions only
+- Load and Save do not have undo and redo
+- Text buffer initializes as empty string
+- c++11 features used
+- Compilation is tested with clang++ 6.0
 
 ## Credits
 

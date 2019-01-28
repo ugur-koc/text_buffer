@@ -95,13 +95,13 @@ public:
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
         if (!validArgs) {
-            HelperUtils::printWarning("Invalid arguments to insert!");
+            HelperUtils::printWarning("Invalid arguments to Insert!");
         } else {
             int indx = arg.find(" ");
             int pos = stoi(arg.substr(0, indx));
             if (pos > tb->getLength()) {
-                validArgs = false;
                 HelperUtils::printWarning("Invalid insertion position!");
+                validArgs = false;
             } else {
                 std::string insertion = arg.substr(indx + 1); // test 'insert 1 '
                 tb->insert(pos, insertion); // the actual operation
@@ -115,7 +115,7 @@ public:
         int indx = arg.find(" ");
         int pos = stoi(arg.substr(0, indx));
         int insertion_len = arg.length() - indx - 1;
-        tb->erase(pos, insertion_len);
+        tb->erase(pos, insertion_len); // erase the insertion part
     }
     void redo(const std::string &arg) override {
         // arg retrieved from history, no need for validity check
@@ -130,7 +130,7 @@ class Append: public Operation {
 public:
     explicit Append(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex(".+");
+        arg_regex = new std::regex(".+"); // anything
     }
     ~Append(){ delete arg_regex; }
 
@@ -156,11 +156,11 @@ public:
 };
 
 class EraseAt: public Operation {
-    std::stack<std::string> erases;
+    std::stack<std::string> erases; // stack of erased parts ot be used by undo/redo
 public:
     explicit EraseAt(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex("\\d+\\s\\d+");
+        arg_regex = new std::regex("\\d+\\s\\d+"); // pairs of positive numbers
     }
     ~EraseAt(){ delete arg_regex; }
 
@@ -207,11 +207,11 @@ public:
 };
 
 class Erase: public Operation {
-    std::stack<std::string> erases;
+    std::stack<std::string> erases; // stack of erased parts ot be used by undo/redo
 public:
     explicit Erase(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex("\\d+");
+        arg_regex = new std::regex("\\d+"); // any positive number
     }
     ~Erase(){ delete arg_regex; }
 
@@ -251,11 +251,11 @@ public:
 };
 
 class Replace: public Operation {
-    std::stack<std::string> replaces;
+    std::stack<std::string> replaces; // stack of replaces to be used by undo/redo
 public:
     explicit Replace(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex("\\S+\\s.*");
+        arg_regex = new std::regex("\\S+\\s.*"); // e.g. 'a b'
     }
     ~Replace(){ delete arg_regex; }
 

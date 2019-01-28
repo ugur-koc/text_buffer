@@ -18,6 +18,8 @@
 
 class TextBufferManager {
 public:
+    
+    // The main loop, used by main.cpp only
     void run() {
         TextBuffer tb;
         std::string cmd, arg, op_code, undo_cmd = "undo", redo_cmd = "redo";
@@ -34,7 +36,7 @@ public:
         Save save(&tb);
 
         Operation* operations[NUM_OP] = {&insert,&append,&eraseAt,&erase,&replace,&load,&save};
-        for (int i = 0; i < NUM_OP; ++i) { 
+        for (int i = 0; i < NUM_OP; ++i) { // initialize op_map
             op_map[op_codes[i]] = operations[i];
         }
 
@@ -45,16 +47,16 @@ public:
             getline(std::cin, cmd);
             std::tie(op_code, arg) = HelperUtils::parseCmd(cmd);
             if (op_code == undo_cmd || op_code == redo_cmd) {
-                if (arg != "") {
+                if (arg != "") { // undo and redo do not take any arguments
                     HelperUtils::printWarning("Arguments to " + op_code + " are ignored!");
                 }
-                int indx = op_code != undo_cmd;
+                int indx = op_code != undo_cmd; // select the stack to pop from
                 if (cmd_stacks[indx]->empty()) {
                     HelperUtils::printWarning("Nothing to " + op_code);
                 } else {
                     cmd = cmd_stacks[indx]->top();
                     cmd_stacks[indx]->pop();
-                    cmd_stacks[(indx+1)%2]->push(cmd);
+                    cmd_stacks[(indx+1)%2]->push(cmd); // push the cmd to the other stack
                     std::tie(op_code, arg) = HelperUtils::parseCmd(cmd);
                     if (indx == 1){
                         op_map[op_code]->redo(arg);
@@ -67,7 +69,7 @@ public:
             } else if (cmd == "exit") {
                 break;
             } else if (op_map.find(op_code) == op_map.end()) {
-                HelperUtils::printWarning("Unknown operation code!");
+                HelperUtils::printWarning("Unknown operation code!"); // op_code is not in the map
             } else if (op_map[op_code]->execute(arg)) { // false implies a warning message was displayed
                 if (op_code != "load" && op_code != "save") {
                     cmd_hist.push(cmd);
