@@ -60,5 +60,9 @@ int main() {
             while(!undones.empty()) undones.pop(); 
         }
     }
+    op_map.clear();   
+    free(cmd_stacks);
+    free(tb);
+
     return 0;
 }
