@@ -7,10 +7,10 @@
 
 #define NUM_OP 7
 
-std::map<std::string, Operation*> initOperationMap(TextBuffer *tb){
+std::map<std::string, Operation*> initOperationMap(TextBuffer &tb){
     std::map<std::string, Operation*> op_map;
     std::string op_codes[NUM_OP] = {"insert", "append", "eraseAt", "erase", "replace", "load", "save"};
-    Operation *operations[NUM_OP] = {new Insert(tb), new Append(tb), new EraseAt(tb), new Erase(tb), new Replace(tb), new Load(tb), new Save(tb)};
+    Operation *operations[NUM_OP] = {new Insert(&tb), new Append(&tb), new EraseAt(&tb), new Erase(&tb), new Replace(&tb), new Load(&tb), new Save(&tb)};
     for (int i = 0; i < NUM_OP; ++i) { 
         op_map[op_codes[i]] = operations[i];
     }
@@ -20,14 +20,14 @@ std::map<std::string, Operation*> initOperationMap(TextBuffer *tb){
 
 
 int main() {
-    TextBuffer *tb = new TextBuffer();
+    TextBuffer tb;
     std::string cmd, arg, op_code, undo_cmd = "undo", redo_cmd = "redo";
     std::stack<std::string> cmd_hist, undones;
     std::stack<std::string>* cmd_stacks[] = {&cmd_hist, &undones};
     std::map<std::string, Operation*> op_map = initOperationMap(tb);
 
     while (1) {
-        tb->printContent();
+        tb.printContent();
         getline(std::cin, cmd);
         std::tie(op_code, arg) = HelperUtils::parseCmd(cmd);
         if (cmd == undo_cmd || cmd == redo_cmd) {
@@ -61,8 +61,6 @@ int main() {
         }
     }
     op_map.clear();   
-    free(cmd_stacks);
-    free(tb);
 
     return 0;
 }

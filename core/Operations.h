@@ -18,10 +18,11 @@ public:
 
 class Load: public Operation { 
 public:
-    explicit Load(TextBuffer * _tb) {
+    explicit Load(TextBuffer *_tb) {
         tb = _tb;
         arg_regex = new std::regex(".+");
     }
+    ~Load(){ delete arg_regex; }
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
         if (!validArgs) {
@@ -50,6 +51,7 @@ public:
         tb = _tb;
         arg_regex = new std::regex(".+");
     }
+    ~Save(){ delete arg_regex; }
 
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
@@ -78,6 +80,8 @@ public:
         tb = _tb;
         arg_regex = new std::regex("\\d+\\s.*");
     }
+
+    ~Insert(){ delete arg_regex; }
 
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
@@ -119,6 +123,7 @@ public:
         tb = _tb;
         arg_regex = new std::regex(".+");
     }
+    ~Append(){ delete arg_regex; }
 
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
@@ -149,6 +154,7 @@ public:
         arg_regex = new std::regex("\\d+\\s\\d+");
         erases = new std::stack<std::string>();
     }
+    ~EraseAt(){ delete arg_regex; }
 
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
@@ -200,6 +206,7 @@ public:
         arg_regex = new std::regex("\\d+");
         erases = new std::stack<std::string>();
     }
+    ~Erase(){ delete arg_regex; }
 
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
@@ -242,6 +249,7 @@ public:
         tb = _tb;
         arg_regex = new std::regex(".+\\s.*");
     }
+    ~Replace(){ delete arg_regex; }
 
     bool execute(const std::string &arg) override {
         bool validArgs = std::regex_match(arg, *arg_regex);
