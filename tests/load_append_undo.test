@@ -1,0 +1,4 @@
+load aaa.txt
+append  my girl
+undo
+exit

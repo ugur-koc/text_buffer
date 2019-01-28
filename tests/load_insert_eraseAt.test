@@ -1,0 +1,4 @@
+load aaa.txt
+insert 2 do 
+eraseAt 2 3
+exit

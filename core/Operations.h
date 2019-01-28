@@ -1,3 +1,12 @@
+/**
+    MathWorks Interview Asn 2, Operations.h
+    Purpose: Super and base classes realizing the operations; 
+        insert, append, erase, eraseAt, replace, load, and save
+
+    @author Ugur Koc
+    @version 0.1 01/25/19 
+*/
+
 #include <regex>
 #include <fstream>
 #include <streambuf>
@@ -20,7 +29,7 @@ class Load: public Operation {
 public:
     explicit Load(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex(".+");
+        arg_regex = new std::regex(".+\\.txt");// accepting any form of file name .txt -- to be evaluted by OS
     }
     ~Load(){ delete arg_regex; }
     bool execute(const std::string &arg) override {
@@ -49,7 +58,7 @@ class Save: public Operation {
 public:
     explicit Save(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex(".+");
+        arg_regex = new std::regex(".+\\.txt");
     }
     ~Save(){ delete arg_regex; }
 
@@ -58,7 +67,7 @@ public:
         if (!validArgs) {
             HelperUtils::printWarning("Invalid arguments to Save!");
         } else {
-            std::ofstream file_stream (arg, std::ios::out | std::ios::app | std::ios::binary);
+            std::ofstream file_stream (arg, std::ios::out | std::ios::binary);
             if (!file_stream.is_open()) {
                 HelperUtils::printWarning("Error in openning file " + arg + "!");
                 validArgs = false;
@@ -78,7 +87,7 @@ class Insert: public Operation {
 public:
     explicit Insert(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex("\\d+\\s.*");
+        arg_regex = new std::regex("\\d+\\s.*"); // e.g. '3 too late'
     }
 
     ~Insert(){ delete arg_regex; }
@@ -169,10 +178,10 @@ public:
                 int erase_len  = stoi(arg.substr(indx+1));
                 std::string removal = tb->getSubString(pos, erase_len);
                 erases.push(removal);
-                tb->erase(pos, erase_len);// the actual operation
                 if ((pos+erase_len)>tb->getLength()) {
-                    HelperUtils::printWarning("Erased less then "+std::to_string(erase_len)+" characthers!");
+                    HelperUtils::printWarning("Erased less than "+std::to_string(erase_len)+" characters!");
                 }
+                tb->erase(pos, erase_len);// the actual operation
             }
         }
         return validArgs;
@@ -214,7 +223,7 @@ public:
             int erase_len = stoi(arg);
             int pos = tb->getLength() - erase_len;
             if (pos < 0) {
-                HelperUtils::printWarning("Erased less then "+std::to_string(erase_len)+" characthers!");
+                HelperUtils::printWarning("Erased less than "+std::to_string(erase_len)+" characters!");
                 pos = 0;
             }
             std::string removal = tb->getSubString(pos, erase_len);
@@ -242,10 +251,11 @@ public:
 };
 
 class Replace: public Operation {
+    std::stack<std::string> replaces;
 public:
     explicit Replace(TextBuffer * _tb) {
         tb = _tb;
-        arg_regex = new std::regex(".+\\s.*");
+        arg_regex = new std::regex("\\S+\\s.*");
     }
     ~Replace(){ delete arg_regex; }
 
@@ -257,6 +267,7 @@ public:
             int indx = arg.find(" ");
             std::string findStr = arg.substr(0, indx);
             std::string replaceStr = arg.substr(indx + 1);
+            replaces.push(tb->getContent());
             tb->replace(findStr,replaceStr);// the actual operation
         }
         return validArgs;
@@ -264,16 +275,16 @@ public:
 
     void undo(const std::string &arg) override {
         // arg retrieved from history, no need for validity check
-        int indx = arg.find(" ");
-        std::string findStr = arg.substr(0, indx);
-        std::string replaceStr = arg.substr(indx + 1);
-        tb->replace(replaceStr,findStr);// the actual operation
+        std::string prevContent = replaces.top();
+        replaces.pop();
+        tb->setContent(prevContent);// the actual operation
     }
     void redo(const std::string &arg) override {
         // arg retrieved from history, no need for validity check
         int indx = arg.find(" ");
         std::string findStr = arg.substr(0, indx);
         std::string replaceStr = arg.substr(indx + 1);
+        replaces.push(tb->getContent());
         tb->replace(findStr,replaceStr);// the actual operation
     }
 };

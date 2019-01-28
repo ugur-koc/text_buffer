@@ -1,0 +1,4 @@
+load aaa.txt
+erase 4
+undo
+exit

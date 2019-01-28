@@ -1,0 +1,4 @@
+load aaa.txt
+insert 10  my girl
+erase 8
+exit

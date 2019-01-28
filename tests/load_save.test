@@ -1,0 +1,3 @@
+load aaa.txt
+save tests/load_save.txt
+exit

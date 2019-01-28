@@ -1,0 +1,42 @@
+Error in openning file bbb.txt!
+
+Invalid arguments to Load!
+
+Invalid arguments to Save!
+
+Invalid arguments to Save!
+
+Invalid arguments to insert!
+
+Invalid insertion position!
+
+Invalid arguments to insert!
+
+Invalid arguments to insert!
+
+Nothing to append!
+
+Invalid arguments to EraseAt!
+
+Invalid EraseAt position!
+
+Invalid arguments to EraseAt!
+
+Invalid arguments to EraseAt!
+
+Erased less than 5 characters!
+
+Invalid arguments to Erase!
+
+Invalid arguments to Erase!
+
+Invalid arguments to Erase!
+
+Erased less than 200 characters!
+
+Invalid arguments to Replace!
+
+Invalid arguments to Replace!
+
+Invalid arguments to Replace!
+

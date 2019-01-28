@@ -1,0 +1,5 @@
+insert 0 I love you
+undo
+insert 0 baby
+redo
+exit

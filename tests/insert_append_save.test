@@ -1,0 +1,4 @@
+insert 0 I love you
+append  my girl
+save tests/insert_append_save.txt
+exit

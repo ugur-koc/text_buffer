@@ -1,3 +1,12 @@
+/**
+    MathWorks Interview Asn 2, TextBuffer.h
+    Purpose: Text Buffer class containting the functions
+        that apply the issued changes to the buffer
+
+    @author Ugur Koc
+    @version 0.1 01/25/19 
+*/
+
 #include <iostream>
 #include <string>
 
