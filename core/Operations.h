@@ -147,12 +147,11 @@ public:
 };
 
 class EraseAt: public Operation {
-    std::stack<std::string> *erases;
+    std::stack<std::string> erases;
 public:
     explicit EraseAt(TextBuffer * _tb) {
         tb = _tb;
         arg_regex = new std::regex("\\d+\\s\\d+");
-        erases = new std::stack<std::string>();
     }
     ~EraseAt(){ delete arg_regex; }
 
@@ -169,7 +168,7 @@ public:
             } else {
                 int erase_len  = stoi(arg.substr(indx+1));
                 std::string removal = tb->getSubString(pos, erase_len);
-                erases->push(removal);
+                erases.push(removal);
                 tb->erase(pos, erase_len);// the actual operation
                 if ((pos+erase_len)>tb->getLength()) {
                     HelperUtils::printWarning("Erased less then "+std::to_string(erase_len)+" characthers!");
@@ -183,8 +182,8 @@ public:
         // arg retrieved from history, no need for validity check
         int indx = arg.find(" ");
         int pos = stoi(arg.substr(0, indx));
-        std::string insertion = erases->top();
-        erases->pop();
+        std::string insertion = erases.top();
+        erases.pop();
         tb->insert(pos, insertion);
     }
     void redo(const std::string &arg) override {
@@ -193,18 +192,17 @@ public:
         int pos = stoi(arg.substr(0, indx));
         int erase_len  = stoi(arg.substr(indx+1));
         std::string removal = tb->getSubString(pos, erase_len);
-        erases->push(removal);
+        erases.push(removal);
         tb->erase(pos, erase_len);// the actual operation
     }
 };
 
 class Erase: public Operation {
-    std::stack<std::string> *erases;
+    std::stack<std::string> erases;
 public:
     explicit Erase(TextBuffer * _tb) {
         tb = _tb;
         arg_regex = new std::regex("\\d+");
-        erases = new std::stack<std::string>();
     }
     ~Erase(){ delete arg_regex; }
 
@@ -220,7 +218,7 @@ public:
                 pos = 0;
             }
             std::string removal = tb->getSubString(pos, erase_len);
-            erases->push(removal);
+            erases.push(removal);
             tb->erase(pos, erase_len);// the actual operation
         }
         return validArgs;
@@ -228,8 +226,8 @@ public:
 
     void undo(const std::string &arg) override {
         // arg retrieved from history, no need for validity check
-        std::string insertion = erases->top();
-        erases->pop();
+        std::string insertion = erases.top();
+        erases.pop();
         tb->append(insertion);
     }
     void redo(const std::string &arg) override {
@@ -238,7 +236,7 @@ public:
         int pos = tb->getLength() - erase_len;
         if (pos < 0) { pos = 0; }
         std::string removal = tb->getSubString(pos, erase_len);
-        erases->push(removal);
+        erases.push(removal);
         tb->erase(pos, erase_len);// the actual operation
     }
 };
