@@ -18,7 +18,7 @@ public:
 
 class Load: public Operation { 
 public:
-    explicit Load(TextBuffer *_tb) {
+    explicit Load(TextBuffer * _tb) {
         tb = _tb;
         arg_regex = new std::regex(".+");
     }

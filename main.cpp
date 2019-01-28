@@ -7,24 +7,28 @@
 
 #define NUM_OP 7
 
-std::map<std::string, Operation*> initOperationMap(TextBuffer &tb){
-    std::map<std::string, Operation*> op_map;
-    std::string op_codes[NUM_OP] = {"insert", "append", "eraseAt", "erase", "replace", "load", "save"};
-    Operation *operations[NUM_OP] = {new Insert(&tb), new Append(&tb), new EraseAt(&tb), new Erase(&tb), new Replace(&tb), new Load(&tb), new Save(&tb)};
-    for (int i = 0; i < NUM_OP; ++i) { 
-        op_map[op_codes[i]] = operations[i];
-    }
-    HelperUtils::printOperations(op_codes);
-    return op_map;
-}
-
 
 int main() {
     TextBuffer tb;
     std::string cmd, arg, op_code, undo_cmd = "undo", redo_cmd = "redo";
     std::stack<std::string> cmd_hist, undones;
-    std::stack<std::string>* cmd_stacks[] = {&cmd_hist, &undones};
-    std::map<std::string, Operation*> op_map = initOperationMap(tb);
+    std::stack<std::string>* cmd_stacks[2] = {&cmd_hist, &undones};
+    std::map<std::string, Operation*> op_map;
+    std::string op_codes[NUM_OP] = {"insert", "append", "eraseAt", "erase", "replace", "load", "save"};
+    Insert insert(&tb);
+    Append append(&tb);
+    EraseAt eraseAt(&tb);
+    Erase erase(&tb);
+    Replace replace(&tb);
+    Load load(&tb);
+    Save save(&tb);
+
+    Operation* operations[NUM_OP] = {&insert,&append,&eraseAt,&erase,&replace,&load,&save};
+    for (int i = 0; i < NUM_OP; ++i) { 
+        op_map[op_codes[i]] = operations[i];
+    }
+
+    HelperUtils::printOperations(op_codes);
 
     while (1) {
         tb.printContent();

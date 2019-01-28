@@ -1,5 +1,5 @@
 CC=clang++-mp-6.0 
-CFLAGS=-c
+CFLAGS=-c -g
 LDFLAGS=
 SOURCES=main.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
