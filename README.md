@@ -49,4 +49,4 @@ Creates **tests/test_name.tmp** and **tests/test_name.out** files and checks **t
 
 ## Credits
 
-This program is developed by Ugur Koc for the MathWorks interview.
+This program is developed by Ugur Koc for a job interview.
