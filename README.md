@@ -46,7 +46,3 @@ Creates **tests/test_name.tmp** and **tests/test_name.out** files and checks **t
 - Text buffer initializes as empty string
 - c++11 features used
 - Compilation is tested with clang++ 6.0
-
-## Credits
-
-This program is developed by Ugur Koc for a job interview.
